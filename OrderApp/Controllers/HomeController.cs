@@ -54,6 +54,8 @@ public class HomeController : Controller
     public async Task<IActionResult> OrderDescription(string orderId)
     {
         var curOrder = await _orderSqLiteService.GetSingleOrder(orderId);
+        if (curOrder == null)
+            return Redirect("~/Home/");
         ViewData.Model = curOrder;
         return View();
     }
