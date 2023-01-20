@@ -39,4 +39,9 @@ public class OrderSQLiteRepository : IOrderConnection
         _context.Orders.Remove(curOrder);
         await _context.SaveChangesAsync();
     }
+
+    public bool CanConnect()
+    {
+        return _context.Database.CanConnect();
+    }
 }

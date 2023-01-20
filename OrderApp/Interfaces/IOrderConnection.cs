@@ -8,4 +8,5 @@ public interface IOrderConnection
     public Task<Order> GetSingleOrder(string id);
     public Task AddOrder(Order orderToAdd);
     public Task DeleteOrder(string id);
+    public bool CanConnect();
 }

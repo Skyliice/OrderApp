@@ -35,8 +35,8 @@ public class HomeController : Controller
     {
         if (ModelState.IsValid)
         {
-            await _orderSerivce.AddOrder(curOrder);
-            return Redirect("~/Home/");
+            curOrder = await _orderSerivce.AddOrder(curOrder);
+            return Redirect($"~/Home/OrderDescription?orderUserId={curOrder.UserId}");
         }
         else
             return View(curOrder);
