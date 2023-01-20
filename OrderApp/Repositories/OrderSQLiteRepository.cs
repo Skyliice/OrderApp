@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderApp.Interfaces;
 using OrderApp.Models;
 
 namespace OrderApp.Services;
 
-public class OrderSQLiteService
+public class OrderSQLiteRepository : IOrderConnection
 {
     private OrderDb _context;
     
-    public OrderSQLiteService(OrderDb context)
+    public OrderSQLiteRepository(OrderDb context)
     {
         _context = context;
-        context.Database.EnsureCreated();
+        _context.Database.EnsureCreated();
     }
 
     public async Task<List<Order>> GetAllOrders()
@@ -37,5 +38,10 @@ public class OrderSQLiteService
         var curOrder = await _context.Orders.FindAsync(id);
         _context.Orders.Remove(curOrder);
         await _context.SaveChangesAsync();
+    }
+
+    public bool CanConnect()
+    {
+        return _context.Database.CanConnect();
     }
 }

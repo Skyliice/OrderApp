@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OrderApp;
+using OrderApp.Interfaces;
 using OrderApp.Models;
 using OrderApp.Services;
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OrderDb>(options => options.UseSqlite("Filename=OrderDb.db"));
-builder.Services.AddScoped<OrderSQLiteService>();
+builder.Services.AddTransient<IOrderConnection,OrderSQLiteRepository>();
+builder.Services.AddTransient<OrderService>();
 
 var app = builder.Build();
 

@@ -8,17 +8,17 @@ namespace OrderApp.Controllers;
 
 public class HomeController : Controller
 {
-    private OrderSQLiteService _orderSqLiteService;
-    private List<Order> _ordersList;
+    private OrderService _orderSerivce;
+    private List<OrderClientDTO> _ordersList;
 
-    public HomeController(OrderSQLiteService orderSqLiteService)
+    public HomeController(OrderService orderService)
     {
-        _orderSqLiteService = orderSqLiteService;
+        _orderSerivce = orderService;
     }
 
     public async Task<IActionResult> Index()
     {
-        _ordersList = await _orderSqLiteService.GetAllOrders();
+        _ordersList = await _orderSerivce.GetAllOrders();
         ViewData.Model = _ordersList;
         return View();
     }
@@ -33,13 +33,10 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(Order curOrder)
     {
-        
         if (ModelState.IsValid)
         {
-            var id = Guid.NewGuid().ToString();
-            curOrder.Id = id;
-            await _orderSqLiteService.AddOrder(curOrder);
-            return Redirect("~/Home/");
+            curOrder = await _orderSerivce.AddOrder(curOrder);
+            return Redirect($"~/Home/OrderDescription?orderUserId={curOrder.UserId}");
         }
         else
             return View(curOrder);
@@ -47,13 +44,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> DeleteOrder(string orderId)
     {
-        await _orderSqLiteService.DeleteOrder(orderId);
+        await _orderSerivce.DeleteOrder(orderId);
         return Redirect("~/Home/");
     }
 
-    public async Task<IActionResult> OrderDescription(string orderId)
+    public async Task<IActionResult> OrderDescription(int orderUserId)
     {
-        var curOrder = await _orderSqLiteService.GetSingleOrder(orderId);
+        var curOrder = await _orderSerivce.GetSingleOrder(orderUserId);
         if (curOrder == null)
             return Redirect("~/Home/");
         ViewData.Model = curOrder;
