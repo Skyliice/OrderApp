@@ -8,17 +8,17 @@ namespace OrderApp.Controllers;
 
 public class HomeController : Controller
 {
-    private OrderSQLiteService _orderSqLiteService;
+    private OrderService _orderSerivce;
     private List<Order> _ordersList;
 
-    public HomeController(OrderSQLiteService orderSqLiteService)
+    public HomeController(OrderService orderService)
     {
-        _orderSqLiteService = orderSqLiteService;
+        _orderSerivce = orderService;
     }
 
     public async Task<IActionResult> Index()
     {
-        _ordersList = await _orderSqLiteService.GetAllOrders();
+        _ordersList = await _orderSerivce.GetAllOrders();
         ViewData.Model = _ordersList;
         return View();
     }
@@ -36,9 +36,7 @@ public class HomeController : Controller
         
         if (ModelState.IsValid)
         {
-            var id = Guid.NewGuid().ToString();
-            curOrder.Id = id;
-            await _orderSqLiteService.AddOrder(curOrder);
+            await _orderSerivce.AddOrder(curOrder);
             return Redirect("~/Home/");
         }
         else
@@ -47,13 +45,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> DeleteOrder(string orderId)
     {
-        await _orderSqLiteService.DeleteOrder(orderId);
+        await _orderSerivce.DeleteOrder(orderId);
         return Redirect("~/Home/");
     }
 
     public async Task<IActionResult> OrderDescription(string orderId)
     {
-        var curOrder = await _orderSqLiteService.GetSingleOrder(orderId);
+        var curOrder = await _orderSerivce.GetSingleOrder(orderId);
         if (curOrder == null)
             return Redirect("~/Home/");
         ViewData.Model = curOrder;
