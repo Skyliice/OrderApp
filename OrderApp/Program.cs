@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OrderDb>(options => options.UseSqlite("Filename=OrderDb.db"));
 builder.Services.AddTransient<IOrderConnection,OrderSQLiteRepository>();
+builder.Services.AddTransient<OrderService>();
 
 var app = builder.Build();
 

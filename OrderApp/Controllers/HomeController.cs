@@ -9,7 +9,7 @@ namespace OrderApp.Controllers;
 public class HomeController : Controller
 {
     private OrderService _orderSerivce;
-    private List<Order> _ordersList;
+    private List<OrderClientDTO> _ordersList;
 
     public HomeController(OrderService orderService)
     {
@@ -33,7 +33,6 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> Add(Order curOrder)
     {
-        
         if (ModelState.IsValid)
         {
             await _orderSerivce.AddOrder(curOrder);
@@ -49,9 +48,9 @@ public class HomeController : Controller
         return Redirect("~/Home/");
     }
 
-    public async Task<IActionResult> OrderDescription(string orderId)
+    public async Task<IActionResult> OrderDescription(int orderUserId)
     {
-        var curOrder = await _orderSerivce.GetSingleOrder(orderId);
+        var curOrder = await _orderSerivce.GetSingleOrder(orderUserId);
         if (curOrder == null)
             return Redirect("~/Home/");
         ViewData.Model = curOrder;

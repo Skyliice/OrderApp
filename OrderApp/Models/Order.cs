@@ -5,6 +5,7 @@ namespace OrderApp.Models;
 public class Order
 {
     public string? Id { get; set; }
+    public int? UserId { get; set; }
     [Required(ErrorMessage= "This field must be filled in")]
     [StringLength(30, ErrorMessage = "Field length can't be more than 30.")]
     public string? CityOfSender { get; set; }
@@ -18,6 +19,7 @@ public class Order
     [StringLength(50, ErrorMessage = "Field length can't be more than 50.")]
     public string? RecipientAddress { get; set; }
     [Required(ErrorMessage= "This field must be filled in")]
+    [Range(0.01,100)]
     public double CargoWeight { get; set; }
     [Required(ErrorMessage= "This field must be filled in")]
     public DateTime ReceiptDate { get; set; }

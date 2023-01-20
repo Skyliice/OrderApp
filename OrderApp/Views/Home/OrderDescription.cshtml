@@ -1,13 +1,30 @@
 ﻿@model Order
     <h1 class="display-4">Order description</h1>
 <div class="container p-5 my-5 border border-success rounded">
-    <p><span style="font-weight: bolder">Order Id: </span>@Model.Id</p>
+    <p><span style="font-weight: bolder">Order Id: </span>@Model.UserId</p>
     <p><span style="font-weight: bolder">Sender's city: </span>@Model.CityOfSender</p>
     <p><span style="font-weight: bolder">Sender's Address:</span> @Model.AddressOfSender</p>
     <p><span style="font-weight: bolder">Recipient's City:</span> @Model.RecipientCity</p>
     <p><span style="font-weight: bolder">Recipient's Address: </span>@Model.RecipientAddress</p>
     <p><span style="font-weight: bolder">Cargo Weight:</span> @Model.CargoWeight kg</p>
     <p><span style="font-weight: bolder">Date of receipt:</span> @Model.ReceiptDate.ToShortDateString()</p>
-    <a class="btn btn-danger" asp-controller="Home" asp-action="DeleteOrder" asp-route-orderId="@Model.Id">Delete order</a>
+    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Delete order</a>
     <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Go back</a>
+</div>
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this order?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a type="button" class="btn btn-danger" asp-controller="Home" asp-action="DeleteOrder" asp-route-orderId="@Model.Id">Delete</a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-﻿@model List<Order>
+﻿@model List<OrderClientDTO>
 <div class="text-center">
     <h1 class="display-4">Тестовое задание</h1>
 </div>
@@ -31,7 +31,7 @@
         @foreach (var item in @Model)
         {
             <tr>
-                <td><a asp-controller="Home" asp-action="OrderDescription" asp-route-orderId="@item.Id">@item.Id</a></td>
+                <td><a asp-controller="Home" asp-action="OrderDescription" asp-route-orderUserId="@item.UserId">@item.UserId</a></td>
                 <td>@item.CityOfSender</td>
                 <td>@item.AddressOfSender</td>
                 <td>@item.RecipientCity</td>
